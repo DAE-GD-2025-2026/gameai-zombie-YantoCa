@@ -38,7 +38,10 @@ public class CaluweYantoZombieRuntime : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+				"AIModule",
+				"NavigationSystem",
 				// ... add private dependencies that you statically link with here ...	
+				"GameAI_Zombie" 
 			}
 			);
 		
