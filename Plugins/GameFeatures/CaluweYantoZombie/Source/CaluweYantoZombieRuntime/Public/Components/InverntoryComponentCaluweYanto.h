@@ -21,10 +21,10 @@ public:
 	bool IsInventoryFull() const;
 	bool TryTakingItem(ABaseItem& Item);
 	const TArray<ABaseItem*>& GetInventory() const;
-	float GetPickupRange() const;
-	//UInventoryComponent* GetInventoryComponent() const {return InventoryComponent;};
+	float GetPickupRange() const; 
 
 	bool UsingItem(const EItemType& UsingItemType);
+	bool HasItemInInventory(const EItemType& UsingItemType);
 protected:
 	virtual void BeginPlay() override;
 	

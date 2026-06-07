@@ -43,6 +43,11 @@ EBTNodeResult::Type UBTTask_LootItemCaluweYanto::ExecuteTask(UBehaviorTreeCompon
 			
 			// TODO ADD A FUNCTION THAT MAKES ROOM FOR ITEM (Upgrade)
 			
+			// Go through booleans
+			BlackboardComponent->SetValueAsBool(HasWeapon.SelectedKeyName, Inventory->HasItemInInventory(EItemType::Pistol) || Inventory->HasItemInInventory(EItemType::Shotgun));
+			BlackboardComponent->SetValueAsBool(HasFood.SelectedKeyName, Inventory->HasItemInInventory(EItemType::Food));
+			BlackboardComponent->SetValueAsBool(HasHealing.SelectedKeyName, Inventory->HasItemInInventory(EItemType::Medkit));
+			
 			BlackboardComponent->SetValueAsBool(ItemSeenKeySelector.SelectedKeyName, false);
 			BlackboardComponent->SetValueAsObject(ItemKey.SelectedKeyName, nullptr);
 			

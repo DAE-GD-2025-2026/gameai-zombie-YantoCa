@@ -26,6 +26,7 @@ EBTNodeResult::Type UBTTask_ShootCaluweYanto::ExecuteTask(UBehaviorTreeComponent
 	if (!shotZombie) shotZombie = Inventory->UsingItem(EItemType::Pistol);
 	
 	// check inventory again if we have weapons or not. for isWeaponed BOol
+	BlackboardComp->SetValueAsBool(HasWeapon.SelectedKeyName, Inventory->HasItemInInventory(EItemType::Shotgun) || Inventory->HasItemInInventory(EItemType::Pistol));
 	
 	if (!shotZombie) return EBTNodeResult::Failed; // nothing Fired
 	

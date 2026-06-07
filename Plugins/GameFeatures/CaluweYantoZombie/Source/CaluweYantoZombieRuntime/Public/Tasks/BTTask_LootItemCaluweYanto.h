@@ -20,4 +20,14 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FBlackboardKeySelector ItemKey;
+	
+	// Checking booleans
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FBlackboardKeySelector HasWeapon;
+	
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FBlackboardKeySelector HasHealing;
+	
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FBlackboardKeySelector HasFood;
 };

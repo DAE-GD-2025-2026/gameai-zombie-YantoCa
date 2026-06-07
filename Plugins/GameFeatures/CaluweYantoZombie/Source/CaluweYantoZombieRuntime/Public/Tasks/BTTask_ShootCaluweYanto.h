@@ -16,4 +16,7 @@ public:
 protected:
 	// override Task, inheritance
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& root, uint8* nodeMemory) override;
+	
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FBlackboardKeySelector HasWeapon;
 };
