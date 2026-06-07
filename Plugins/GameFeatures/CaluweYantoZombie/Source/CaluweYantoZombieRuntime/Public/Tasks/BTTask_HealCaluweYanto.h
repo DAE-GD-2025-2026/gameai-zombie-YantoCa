@@ -19,4 +19,7 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FBlackboardKeySelector HasHealing;
+
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FBlackboardKeySelector NeedsHealingKeyName;
 };

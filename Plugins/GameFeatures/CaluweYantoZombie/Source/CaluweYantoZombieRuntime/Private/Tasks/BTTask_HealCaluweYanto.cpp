@@ -25,6 +25,7 @@ EBTNodeResult::Type UBTTask_HealCaluweYanto::ExecuteTask(UBehaviorTreeComponent&
 	
 	// check inventory again 
 	BlackboardComp->SetValueAsBool(HasHealing.SelectedKeyName, Inventory->HasItemInInventory(EItemType::Medkit));
+	BlackboardComp->SetValueAsBool(NeedsHealingKeyName.SelectedKeyName, false); // has healed
 	
 	if (!usedSuccesfull) return EBTNodeResult::Failed; 
 	return EBTNodeResult::Succeeded;

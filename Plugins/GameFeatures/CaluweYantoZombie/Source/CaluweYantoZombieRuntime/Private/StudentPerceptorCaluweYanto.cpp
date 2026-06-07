@@ -3,9 +3,7 @@
 
 #include "StudentPerceptorCaluweYanto.h"
 
-#include "AIController.h"
-#include "HeadMountedDisplayTypes.h"
-#include "IDetailTreeNode.h"
+#include "AIController.h" 
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/HouseTrackerComponentCaluweYanto.h"
 
@@ -30,6 +28,7 @@ void UStudentPerceptorCaluweYanto::BeginPlay()
 	BlackboardComponent = Cast<AAIController>(Cast<APawn>(GetOwner())->GetController())->GetBlackboardComponent();
 	BlackboardComponent->SetValueAsObject("Perceptor", this);
 	
+	// House Tracker
 	HouseTrackerComponent = GetOwner()->FindComponentByClass<UHouseTrackerComponentCaluweYanto>();
 	if (!HouseTrackerComponent) // Check if we have the Component
 	{
@@ -41,6 +40,7 @@ void UStudentPerceptorCaluweYanto::BeginPlay()
 		}
 	}
 	
+	// Inventory Component
 	InventoryComponent = GetOwner()->FindComponentByClass<UInventoryComponentCaluweYanto>();
 	if (!InventoryComponent) // Check if we have the Component
 	{
@@ -52,6 +52,7 @@ void UStudentPerceptorCaluweYanto::BeginPlay()
 		}
 	}
 	
+	// Zombie Component
 	ZombieTrackerComponent = GetOwner()->FindComponentByClass<UZombieTrackerComponentCaluweYanto>();
 	if (!ZombieTrackerComponent) // Check if we have the Component
 	{
@@ -62,11 +63,15 @@ void UStudentPerceptorCaluweYanto::BeginPlay()
 			ZombieTrackerComponent->RegisterComponent();
 		}
 	}
+	
+	// Health Component
+	HealthComponent = GetOwner()->FindComponentByClass<UHealthComponent>();
+	previousHealth = HealthComponent->GetHealth();
 }
 
 void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-	if (!BlackboardComponent || !HouseTrackerComponent)
+	if (!BlackboardComponent || !HouseTrackerComponent || !ZombieTrackerComponent)
 	{
 		GEngine->AddOnScreenDebugMessage(5, 1.f, FColor::Red,TEXT("Missing Important Component"));
 		return;
@@ -135,31 +140,35 @@ void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulu
 	FString::Printf(TEXT("Saw Something! %s"), *Actor->GetName()));
 }
 
+
+
+
 void UStudentPerceptorCaluweYanto::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
-	if (!BlackboardComponent || !ZombieTrackerComponent || !HouseTrackerComponent) return; // Cancel early
-	//BlackboardComponent->SetValueAsBool(ZombieDangerKeyName, false);
-
-	FVector PlayerLocation = GetOwner()->GetActorLocation();
-	
+	if (!BlackboardComponent || !ZombieTrackerComponent || !HouseTrackerComponent || !HealthComponent) return; // Cancel early
 	
 	// Update Zombies
+	FVector PlayerLocation = GetOwner()->GetActorLocation();
 	ZombieTrackerComponent->UpdateNearestZombies(PlayerLocation);
 	BlackboardComponent->SetValueAsObject(NearestZombieKeyName, ZombieTrackerComponent->GetNearestZombie());
 	
 	bool bIsCurrentlyInDanger = ZombieTrackerComponent->IsInDanger(PlayerLocation);
 	bool bWasInDangerLastFrame = BlackboardComponent->GetValueAsBool(ZombieDangerKeyName);
-
-	// 4. Pas het blackboard ALLEEN aan als de status daadwerkelijk omslaat!
+ 
 	if (bIsCurrentlyInDanger != bWasInDangerLastFrame)
 	{
 		BlackboardComponent->SetValueAsBool(ZombieDangerKeyName, bIsCurrentlyInDanger);
 	}
 	
-	
-	//BlackboardComponent->SetValueAsBool(ZombieDangerKeyName, ZombieTrackerComponent->IsInDanger(PlayerLocation));
+	// Update Health
+	if (HealthComponent ->GetHealth() < previousHealth) // took damage
+	{
+		previousHealth = HealthComponent->GetHealth();
+		
+		BlackboardComponent->SetValueAsBool(NeedsHealingKeyName, true); 
+	}
 }
 
 int UStudentPerceptorCaluweYanto::GetItemValue(const ABaseItem& Item)

@@ -23,7 +23,6 @@ public:
 	virtual void BeginPlay() override;
 	UHouseTrackerComponentCaluweYanto* GetHouseTracker() const { return HouseTrackerComponent; }
 	UInventoryComponentCaluweYanto* GetInventory() const { return InventoryComponent; }
-	//virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION()
 	virtual void OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);	
@@ -37,9 +36,13 @@ private:
 	UInventoryComponentCaluweYanto* InventoryComponent;
 	UPROPERTY()
 	UZombieTrackerComponentCaluweYanto* ZombieTrackerComponent;
+	UPROPERTY()
+	UHealthComponent* HealthComponent;
 	
 	int GetItemValue(const ABaseItem& Item);
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	
+	int previousHealth{};
 	
 	// Propertys
 	/// Items
@@ -59,4 +62,11 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FName NearestZombieKeyName{ "NearestZombie" }; 
+	
+	/// Pawn Well being
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FName NeedsHealingKeyName{ "NeedsHealing" }; 
+
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FName NeedsFoodKeyName{ "NeedsFood" }; 
 };
