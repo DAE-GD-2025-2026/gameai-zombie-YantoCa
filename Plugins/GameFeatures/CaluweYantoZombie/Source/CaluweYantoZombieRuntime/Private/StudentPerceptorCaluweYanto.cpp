@@ -48,9 +48,8 @@ void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulu
 	if (!Stimulus.WasSuccessfullySensed() || Stimulus.IsExpired()) return; // early stop if it really sensed something
 	 
 	if (auto SensedHouse = Cast<AHouse>(Actor)) // is house then
-	{
-		//if (HousesSpotted.Contains(SensedHouse)) return; // return early, if already in list
-		if (HouseTrackerComponent->ContainsHouse(*SensedHouse))
+	{ 
+		if (HouseTrackerComponent->ContainsHouse(*SensedHouse)) // return early, if already in list
 		{
 			GEngine->AddOnScreenDebugMessage(6, 2.f, FColor::Yellow,TEXT("Already seen the house"));
 			return;
@@ -61,7 +60,8 @@ void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulu
 		
 		// Set true if there are *Unvisited* Houses still left over
 		BlackboardComponent->SetValueAsBool("HousesLeftToVisit", !HouseTrackerComponent->IsHousesEmpty());
-		// Set Next house to *Visit* // TODO make BBT do this
+		
+		// Set Next house to *Visit* 
 		FVector TargetPos = HouseTrackerComponent->GetNextUnvisitedHousePosition();
 		BlackboardComponent->SetValueAsVector(TEXT("NextHouseLocation"), TargetPos);	
 	}

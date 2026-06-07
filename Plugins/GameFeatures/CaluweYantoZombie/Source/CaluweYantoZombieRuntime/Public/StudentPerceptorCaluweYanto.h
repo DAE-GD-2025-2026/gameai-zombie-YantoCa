@@ -5,13 +5,9 @@
 #include "CoreMinimal.h"
 #include "Components/HouseTrackerComponentCaluweYanto.h"
 #include "Components/ActorComponent.h"
+#include "Components/InverntoryComponentCaluweYanto.h"
 #include "Perception/AIPerceptionComponent.h"
-#include "Perception/AISenseConfig_Sight.h"
-#include "Perception/AISenseConfig_Damage.h"
-#include "Perception/AISense_Damage.h"
-
-#include "Village/House/House.h"
-#include "Items/BaseItem.h"
+#include "Perception/AISenseConfig_Sight.h" 
 
 #include "StudentPerceptorCaluweYanto.generated.h"
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -19,11 +15,7 @@ class CALUWEYANTOZOMBIERUNTIME_API UStudentPerceptorCaluweYanto : public UActorC
 {
 	GENERATED_BODY()
 
-public:
-	// Propertys 
-	UPROPERTY()
-	TArray<ABaseItem*> ItemsSpotted{};
-	
+public:	
 	// Methods
 	UStudentPerceptorCaluweYanto();
 	
@@ -33,14 +25,12 @@ public:
 
 	UFUNCTION()
 	virtual void OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
-	
-	//
-	
+
 private:
 	UPROPERTY()
 	UBlackboardComponent* BlackboardComponent;
 	UPROPERTY()
 	UHouseTrackerComponentCaluweYanto* HouseTrackerComponent;
-	
-	int HouseMemoryLimit{10};
+	UPROPERTY()
+	UInventoryComponentCaluweYanto* InventoryComponent;
 };
