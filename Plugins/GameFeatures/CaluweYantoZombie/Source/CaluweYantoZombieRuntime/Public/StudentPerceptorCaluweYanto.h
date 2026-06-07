@@ -26,8 +26,7 @@ public:
 	//virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION()
-	virtual void OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
-	
+	virtual void OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);	
 private:
 	// Methods
 	UPROPERTY()
@@ -40,6 +39,7 @@ private:
 	UZombieTrackerComponentCaluweYanto* ZombieTrackerComponent;
 	
 	int GetItemValue(const ABaseItem& Item);
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 	// Propertys
 	/// Items

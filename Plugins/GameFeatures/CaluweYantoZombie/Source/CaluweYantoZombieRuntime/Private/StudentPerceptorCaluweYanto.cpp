@@ -135,6 +135,33 @@ void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulu
 	FString::Printf(TEXT("Saw Something! %s"), *Actor->GetName()));
 }
 
+void UStudentPerceptorCaluweYanto::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
+	if (!BlackboardComponent || !ZombieTrackerComponent || !HouseTrackerComponent) return; // Cancel early
+	//BlackboardComponent->SetValueAsBool(ZombieDangerKeyName, false);
+
+	FVector PlayerLocation = GetOwner()->GetActorLocation();
+	
+	
+	// Update Zombies
+	ZombieTrackerComponent->UpdateNearestZombies(PlayerLocation);
+	BlackboardComponent->SetValueAsObject(NearestZombieKeyName, ZombieTrackerComponent->GetNearestZombie());
+	
+	bool bIsCurrentlyInDanger = ZombieTrackerComponent->IsInDanger(PlayerLocation);
+	bool bWasInDangerLastFrame = BlackboardComponent->GetValueAsBool(ZombieDangerKeyName);
+
+	// 4. Pas het blackboard ALLEEN aan als de status daadwerkelijk omslaat!
+	if (bIsCurrentlyInDanger != bWasInDangerLastFrame)
+	{
+		BlackboardComponent->SetValueAsBool(ZombieDangerKeyName, bIsCurrentlyInDanger);
+	}
+	
+	
+	//BlackboardComponent->SetValueAsBool(ZombieDangerKeyName, ZombieTrackerComponent->IsInDanger(PlayerLocation));
+}
+
 int UStudentPerceptorCaluweYanto::GetItemValue(const ABaseItem& Item)
 {
 	switch (Item.GetItemType())

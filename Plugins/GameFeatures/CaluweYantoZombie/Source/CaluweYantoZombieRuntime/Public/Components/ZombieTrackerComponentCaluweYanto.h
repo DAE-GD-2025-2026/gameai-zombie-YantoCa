@@ -5,7 +5,7 @@
 
 #include "ZombieTrackerComponentCaluweYanto.generated.h"
 
-class BaseZombie;
+class ABaseZombie;
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class CALUWEYANTOZOMBIERUNTIME_API UZombieTrackerComponentCaluweYanto : public UActorComponent
 {
