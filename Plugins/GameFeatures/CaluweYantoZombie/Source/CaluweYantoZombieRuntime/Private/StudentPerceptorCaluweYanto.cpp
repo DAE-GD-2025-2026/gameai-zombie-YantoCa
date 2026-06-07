@@ -89,13 +89,7 @@ void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulu
 		{
 			// Try grabbing the currentItem on blackboard
 			if (ABaseItem* currentBBItem = Cast<ABaseItem>(BlackboardComponent->GetValueAsObject(ItemKeyName)))
-			{
-				// Is current item closer than new?
-				//if (Actor->GetDistanceTo(currentBBItem) < SensedItem->GetDistanceTo(currentBBItem))
-				//{
-				//	SensedItem = currentBBItem;
-				//}// Else keep sensedItem
-				
+			{ 
 				// Check which one is more important
 				if (GetItemValue(*currentBBItem) > GetItemValue(*SensedItem))
 				{

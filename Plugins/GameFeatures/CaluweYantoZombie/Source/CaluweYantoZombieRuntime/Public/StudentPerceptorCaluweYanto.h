@@ -6,6 +6,7 @@
 #include "Components/HouseTrackerComponentCaluweYanto.h"
 #include "Components/ActorComponent.h"
 #include "Components/InverntoryComponentCaluweYanto.h"
+#include "Components/ZombieTrackerComponentCaluweYanto.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"   
 
@@ -28,15 +29,19 @@ public:
 	virtual void OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 	
 private:
+	// Methods
 	UPROPERTY()
 	UBlackboardComponent* BlackboardComponent;
 	UPROPERTY()
 	UHouseTrackerComponentCaluweYanto* HouseTrackerComponent;
 	UPROPERTY()
 	UInventoryComponentCaluweYanto* InventoryComponent;
+	UPROPERTY()
+	UZombieTrackerComponentCaluweYanto* ZombieTrackerComponent;
 	
 	int GetItemValue(const ABaseItem& Item);
 	
+	// Propertys
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FName ItemKeyName{ "Item" }; 
 	
