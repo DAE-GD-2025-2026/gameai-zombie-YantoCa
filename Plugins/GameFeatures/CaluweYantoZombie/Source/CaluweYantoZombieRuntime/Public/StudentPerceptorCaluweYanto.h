@@ -42,12 +42,21 @@ private:
 	int GetItemValue(const ABaseItem& Item);
 	
 	// Propertys
+	/// Items
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FName ItemKeyName{ "Item" }; 
 	
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FName ItemSeenKeyName{ "ItemSeen" }; 
 	
+	/// Location
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FName TargetLocationKeyName{ "TargetLocation" }; 
+
+	/// Zombies
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FName ZombieDangerKeyName{ "IsInDanger" }; 
+
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FName NearestZombieKeyName{ "NearestZombie" }; 
 };

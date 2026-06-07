@@ -11,6 +11,7 @@
 
 #include "Village/House/House.h"
 #include "Items/BaseItem.h"
+#include "Zombies/BaseZombie.h"
 
 UStudentPerceptorCaluweYanto::UStudentPerceptorCaluweYanto()
 {
@@ -48,6 +49,17 @@ void UStudentPerceptorCaluweYanto::BeginPlay()
 		if(InventoryComponent)
 		{
 			InventoryComponent->RegisterComponent();
+		}
+	}
+	
+	ZombieTrackerComponent = GetOwner()->FindComponentByClass<UZombieTrackerComponentCaluweYanto>();
+	if (!ZombieTrackerComponent) // Check if we have the Component
+	{
+		// Create the component and attach it
+		ZombieTrackerComponent = NewObject<UZombieTrackerComponentCaluweYanto>(GetOwner(), UZombieTrackerComponentCaluweYanto::StaticClass(), TEXT("RuntimeZombieTrackerComponent"));
+		if(ZombieTrackerComponent)
+		{
+			ZombieTrackerComponent->RegisterComponent();
 		}
 	}
 }
@@ -104,6 +116,18 @@ void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulu
 			GEngine->AddOnScreenDebugMessage(6, 2.f, FColor::Green,TEXT("Seen Item"));
 			BlackboardComponent->SetValueAsVector(TargetLocationKeyName, SensedItem->GetActorLocation() );
 		}
+	}
+	
+	// Zombies
+	if (auto SensedZombie = Cast<ABaseZombie>(Actor))
+	{
+		ZombieTrackerComponent->AddZombie(SensedZombie); // Add to the list
+		
+		// Update locations
+		ZombieTrackerComponent->UpdateNearestZombies(GetOwner()->GetActorLocation());
+		
+		BlackboardComponent->SetValueAsObject(NearestZombieKeyName, ZombieTrackerComponent->GetNearestZombie());
+		BlackboardComponent->SetValueAsBool(ZombieDangerKeyName, ZombieTrackerComponent->IsInDanger(GetOwner()->GetActorLocation()));
 	}
 	
 	
