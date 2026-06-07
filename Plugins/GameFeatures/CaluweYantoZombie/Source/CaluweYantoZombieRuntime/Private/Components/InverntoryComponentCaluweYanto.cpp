@@ -26,13 +26,13 @@ bool UInventoryComponentCaluweYanto::IsInventoryFull() const
 	return ItemCount >= InventoryComponent->GetInventoryCapacity();
 }
 
-bool UInventoryComponentCaluweYanto::TryTakingItem(ABaseItem* Item)
+bool UInventoryComponentCaluweYanto::TryTakingItem(ABaseItem& Item)
 {
-	if (!Item || IsInventoryFull()) return false; // Nope we aint taking that
+	if (!&Item || IsInventoryFull()) return false; // Nope we aint taking that
 	if (InventoryComponent->GetInventory().Contains(&Item)) return false; // avoid duplicates
 	
 	int slotIdx{};
-	while (!InventoryComponent->GrabItem(slotIdx, Item)) // Seek available slot 
+	while (!InventoryComponent->GrabItem(slotIdx, &Item)) // Seek available slot 
 	{
 		// no limit needed because we already checked if it was full or not
 		++slotIdx;

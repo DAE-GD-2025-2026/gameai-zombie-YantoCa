@@ -1,10 +1,7 @@
 ﻿#include "Tasks/BTTask_FindNextHouseCaluweYanto.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
-#include "GameFramework/Pawn.h"
-#include "Components/HouseTrackerComponentCaluweYanto.h"
-#include "StudentPerceptorCaluweYanto.h"
-#include "Village/House/House.h"
+#include "GameFramework/Pawn.h" 
 
 UBTTask_FindNextHouseCaluweYanto::UBTTask_FindNextHouseCaluweYanto()
 {

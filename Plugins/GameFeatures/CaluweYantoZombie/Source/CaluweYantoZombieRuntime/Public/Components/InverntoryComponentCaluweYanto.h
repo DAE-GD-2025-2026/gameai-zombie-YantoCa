@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include  "Components/ActorComponent.h"
 
-#include "Components/InverntoryComponentCaluweYanto.generated.h"
+#include "InverntoryComponentCaluweYanto.generated.h"
 
 class ABaseItem;
 class UInventoryComponent;
@@ -17,7 +17,7 @@ public:
 	UInventoryComponentCaluweYanto();
 	
 	bool IsInventoryFull() const;
-	bool TryTakingItem(ABaseItem* Item);
+	bool TryTakingItem(ABaseItem& Item);
 	const TArray<ABaseItem*>& GetInventory() const;
 	float GetPickupRange() const;
 protected:

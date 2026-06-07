@@ -21,6 +21,7 @@ public:
 	
 	virtual void BeginPlay() override;
 	UHouseTrackerComponentCaluweYanto* GetHouseTracker() const { return HouseTrackerComponent; }
+	UInventoryComponentCaluweYanto* GetInventory() const { return InventoryComponent; }
 	//virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION()
