@@ -6,26 +6,26 @@
 #include "Components/InverntoryComponentCaluweYanto.generated.h"
 
 class ABaseItem;
+class UInventoryComponent;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class CALUWEYANTOZOMBIERUNTIME_API UInventoryComponentCaluweYanto : public UActorComponent
 {
 	GENERATED_BODY()
-	
+	// Wrapper
 public:
 	UInventoryComponentCaluweYanto();
 	
 	bool IsInventoryFull() const;
 	bool TryTakingItem(ABaseItem* Item);
-	const TArray<ABaseItem*>& GetInventory() const { return StoredItems;	};
-	float GetPickupRange() const { return PickupRange;};
-	
+	const TArray<ABaseItem*>& GetInventory() const;
+	float GetPickupRange() const;
 protected:
 	virtual void BeginPlay() override;
 	
 private:
-	const int32 MaxSlots{ 10 };
-	const float PickupRange{ 150.f };
-	
 	UPROPERTY()
-	TArray<ABaseItem*> StoredItems;
+	UInventoryComponent* InventoryComponent{}; // Orginal component wrapped around
+	
+	int ItemCount{};
 };

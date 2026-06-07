@@ -7,7 +7,7 @@
 #include "Components/ActorComponent.h"
 #include "Components/InverntoryComponentCaluweYanto.h"
 #include "Perception/AIPerceptionComponent.h"
-#include "Perception/AISenseConfig_Sight.h" 
+#include "Perception/AISenseConfig_Sight.h"  
 
 #include "StudentPerceptorCaluweYanto.generated.h"
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -25,7 +25,7 @@ public:
 
 	UFUNCTION()
 	virtual void OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
-
+	
 private:
 	UPROPERTY()
 	UBlackboardComponent* BlackboardComponent;
@@ -33,4 +33,7 @@ private:
 	UHouseTrackerComponentCaluweYanto* HouseTrackerComponent;
 	UPROPERTY()
 	UInventoryComponentCaluweYanto* InventoryComponent;
+	
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FName ItemKeyName{ "Item" };
 };

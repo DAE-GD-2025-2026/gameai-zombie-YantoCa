@@ -1,8 +1,19 @@
 ﻿#include "Components/InverntoryComponentCaluweYanto.h"
 
+#include "Common/InventoryComponent.h"
+
 UInventoryComponentCaluweYanto::UInventoryComponentCaluweYanto()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+	
+	if (GetOwner())
+	{
+		InventoryComponent = GetOwner()->FindComponentByClass<UInventoryComponent>();
+		if (!InventoryComponent)
+		{
+			GEngine->AddOnScreenDebugMessage(6, 2.f, FColor::Red, TEXT("Coudlnt wrap around original component"));
+		}
+	}
 }
 
 void UInventoryComponentCaluweYanto::BeginPlay()
@@ -12,29 +23,32 @@ void UInventoryComponentCaluweYanto::BeginPlay()
 
 bool UInventoryComponentCaluweYanto::IsInventoryFull() const
 {
-	return StoredItems.Num() >= MaxSlots;
+	return ItemCount >= InventoryComponent->GetInventoryCapacity();
 }
 
 bool UInventoryComponentCaluweYanto::TryTakingItem(ABaseItem* Item)
 {
-	if (!Item || IsInventoryFull())
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, TEXT("Try Pickup Item: Failed"));
-		return false; // Nope we aint taking that
-	}
-	StoredItems.Add(Item);
+	if (!Item || IsInventoryFull()) return false; // Nope we aint taking that
+	if (InventoryComponent->GetInventory().Contains(&Item)) return false; // avoid duplicates
 	
-	// "Deleting" the object and dragging it along
-	AActor* ItemActor = Cast<AActor>(Item);
-	if (ItemActor)
+	int slotIdx{};
+	while (!InventoryComponent->GrabItem(slotIdx, Item)) // Seek available slot 
 	{
-		ItemActor->SetActorHiddenInGame(true);
-		ItemActor->SetActorEnableCollision(false);
-		
-		ItemActor->AttachToActor(GetOwner(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+		// no limit needed because we already checked if it was full or not
+		++slotIdx;
 	}
 	
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("Try Pickup Item: Success"));
-	 
-	return true;
+	++ItemCount; // count increase
+	return true; 
+}
+
+
+const TArray<ABaseItem*>&  UInventoryComponentCaluweYanto::GetInventory() const
+{
+	return InventoryComponent->GetInventory();
+}
+float  UInventoryComponentCaluweYanto::GetPickupRange() const
+{
+	return InventoryComponent->GetPickupRange();
 }
