@@ -4,6 +4,7 @@
 #include "StudentPerceptorCaluweYanto.h"
 
 #include "AIController.h" 
+#include "AnimationEditorTypes.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/HouseTrackerComponentCaluweYanto.h"
 
@@ -65,8 +66,10 @@ void UStudentPerceptorCaluweYanto::BeginPlay()
 	}
 	
 	// Health Component
-	HealthComponent = GetOwner()->FindComponentByClass<UHealthComponent>();
-	previousHealth = HealthComponent->GetHealth();
+	HealthComponent = GetOwner()->FindComponentByClass<UHealthComponent>(); 
+	
+	// Stamina Component
+	StaminaComponent = GetOwner()->FindComponentByClass<UStaminaComponent>(); 
 }
 
 void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
@@ -163,11 +166,17 @@ void UStudentPerceptorCaluweYanto::TickComponent(float DeltaTime, enum ELevelTic
 	}
 	
 	// Update Health
-	if (HealthComponent ->GetHealth() < previousHealth) // took damage
-	{
-		previousHealth = HealthComponent->GetHealth();
-		
+	int HalfHealth = HealthComponent->GetMaxHealth() * 0.5f;
+	if (HealthComponent ->GetHealth() < HalfHealth) // took damage
+	{		
 		BlackboardComponent->SetValueAsBool(NeedsHealingKeyName, true); 
+	}
+	
+	// Update Stamina
+	float HalfStamina = StaminaComponent->GetMaxStamina() * 0.5f;
+	if (StaminaComponent->GetCurrentStamina() < HalfStamina)
+	{
+		BlackboardComponent->SetValueAsBool(NeedsFoodKeyName, true);
 	}
 }
 

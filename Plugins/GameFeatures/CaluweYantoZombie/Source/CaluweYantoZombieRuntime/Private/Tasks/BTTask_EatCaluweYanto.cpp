@@ -25,6 +25,7 @@ EBTNodeResult::Type UBTTask_EatCaluweYanto::ExecuteTask(UBehaviorTreeComponent& 
 	
 	// check inventory again 
 	BlackboardComp->SetValueAsBool(HasFood.SelectedKeyName, Inventory->HasItemInInventory(EItemType::Food));
+	BlackboardComp->SetValueAsBool(NeedsFood.SelectedKeyName, false);
 	
 	if (!usedSuccesfull) return EBTNodeResult::Failed; 
 	return EBTNodeResult::Succeeded;

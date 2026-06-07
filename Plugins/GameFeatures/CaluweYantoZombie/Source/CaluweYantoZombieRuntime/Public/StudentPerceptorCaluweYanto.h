@@ -38,11 +38,11 @@ private:
 	UZombieTrackerComponentCaluweYanto* ZombieTrackerComponent;
 	UPROPERTY()
 	UHealthComponent* HealthComponent;
+	UPROPERTY()
+	UStaminaComponent* StaminaComponent;
 	
 	int GetItemValue(const ABaseItem& Item);
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
-	int previousHealth{};
 	
 	// Propertys
 	/// Items

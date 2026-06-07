@@ -19,4 +19,8 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FBlackboardKeySelector HasFood;
+	
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FBlackboardKeySelector NeedsFood;
+	
 };
