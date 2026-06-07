@@ -3,24 +3,44 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/HouseTrackerComponentCaluweYanto.h"
 #include "Components/ActorComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 #include "Perception/AISenseConfig_Damage.h"
 #include "Perception/AISense_Damage.h"
-#include "StudentPerceptorCaluweYanto.generated.h"
 
+#include "Village/House/House.h"
+#include "Items/BaseItem.h"
+
+#include "StudentPerceptorCaluweYanto.generated.h"
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class CALUWEYANTOZOMBIERUNTIME_API UStudentPerceptorCaluweYanto : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
+	// Propertys 
+	UPROPERTY()
+	TArray<ABaseItem*> ItemsSpotted{};
+	
+	// Methods
 	UStudentPerceptorCaluweYanto();
 	
 	virtual void BeginPlay() override;
+	UHouseTrackerComponentCaluweYanto* GetHouseTracker() const { return HouseTrackerComponent; }
+	//virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION()
 	virtual void OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+	
+	//
+	
+private:
+	UPROPERTY()
+	UBlackboardComponent* BlackboardComponent;
+	UPROPERTY()
+	UHouseTrackerComponentCaluweYanto* HouseTrackerComponent;
+	
+	int HouseMemoryLimit{10};
 };

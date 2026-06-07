@@ -1,4 +1,4 @@
-﻿#include "BTTask_ExploreCaluweYanto.h"
+﻿#include "Tasks/BTTask_ExploreCaluweYanto.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
 #include "GameFramework/Pawn.h"
@@ -12,21 +12,21 @@ UBTTask_ExploreCaluweYanto::UBTTask_ExploreCaluweYanto()
 EBTNodeResult::Type UBTTask_ExploreCaluweYanto::ExecuteTask(UBehaviorTreeComponent& root, uint8* nodeMemory)
 {
 	// Debug text reveal
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Explore task: Execute task called"));
-	
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, TEXT("Explore task: Execute task called"));
+	 
 	AAIController* Controller = root.GetAIOwner();
 	UBlackboardComponent* BlackboardComponent = root.GetBlackboardComponent();
 	
 	if (!Controller || !BlackboardComponent) // If couldnt grab one of the two. return failed and debug
 	{
-		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("Explore task: no Controller/Blackboard"));
+		GEngine->AddOnScreenDebugMessage(-1,3.f,FColor::Red,TEXT("Explore task: no Controller/Blackboard"));
 		return EBTNodeResult::Failed;
 	}
 	
 	APawn* Pawn = Controller->GetPawn();
 	if (!Pawn)
 	{
-		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("Explore task: no Pawn"));
+		GEngine->AddOnScreenDebugMessage(-1,3.f,FColor::Red,TEXT("Explore task: no Pawn"));
 		return EBTNodeResult::Failed;
 	}
 	
@@ -46,7 +46,7 @@ EBTNodeResult::Type UBTTask_ExploreCaluweYanto::ExecuteTask(UBehaviorTreeCompone
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("Explore task: nav not found"));
+		GEngine->AddOnScreenDebugMessage(-1,2.f,FColor::Red,TEXT("Explore task: nav not found"));
 	}
 	
 	if (bFound)
@@ -55,7 +55,7 @@ EBTNodeResult::Type UBTTask_ExploreCaluweYanto::ExecuteTask(UBehaviorTreeCompone
 		FString message = FString::Printf(TEXT("Explore task: going to %s (key: %s)"),
 			*TargetLocation.ToString(), *TargetLocationKey.SelectedKeyName.ToString());
 		
-		GEngine->AddOnScreenDebugMessage(-1, 5.f,FColor::Blue,message);
+		GEngine->AddOnScreenDebugMessage(-1, 2.f,FColor::Blue,message);
 	}
 	else
 	{
@@ -63,9 +63,7 @@ EBTNodeResult::Type UBTTask_ExploreCaluweYanto::ExecuteTask(UBehaviorTreeCompone
 	}
 	
 	// Pass location along
-	BlackboardComponent->SetValueAsVector(TargetLocationKey.SelectedKeyName, TargetLocation);
-	Controller->MoveToLocation(TargetLocation); // Move the actor to target Location
-		GEngine->AddOnScreenDebugMessage(-1, 5.f,FColor::Green,TEXT("Explore task: nav random pos not found"));
-	
+	BlackboardComponent->SetValueAsVector(TargetLocationKey.SelectedKeyName, TargetLocation); 
+		
 	return EBTNodeResult::Succeeded;
 } 
