@@ -25,6 +25,7 @@ public:
 
 	bool UsingItem(const EItemType& UsingItemType);
 	bool HasItemInInventory(const EItemType& UsingItemType);
+	
 protected:
 	virtual void BeginPlay() override;
 	
