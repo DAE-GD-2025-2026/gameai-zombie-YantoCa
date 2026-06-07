@@ -8,7 +8,7 @@
 UBTTask_ShootCaluweYanto::UBTTask_ShootCaluweYanto()
 {
 	NodeName = "Shoot The Nearest Zombie"; 
-	bNotifyTick = true;
+	bNotifyTick = false;
 }
 
 EBTNodeResult::Type UBTTask_ShootCaluweYanto::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
