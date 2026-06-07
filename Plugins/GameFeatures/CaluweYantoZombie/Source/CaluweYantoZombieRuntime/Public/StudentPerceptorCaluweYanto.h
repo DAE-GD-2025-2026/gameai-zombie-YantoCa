@@ -35,6 +35,8 @@ private:
 	UPROPERTY()
 	UInventoryComponentCaluweYanto* InventoryComponent;
 	
+	int GetItemValue(const ABaseItem& Item);
+	
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FName ItemKeyName{ "Item" }; 
 	

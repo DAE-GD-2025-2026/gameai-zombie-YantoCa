@@ -85,25 +85,50 @@ void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulu
 	// Items
 	if ( auto SensedItem = Cast<ABaseItem>(Actor) )
 	{
-		// Try grabbing the currentItem on blackboard
-		if (ABaseItem* currentBBItem = Cast<ABaseItem>(BlackboardComponent->GetValueAsObject(ItemKeyName)))
+		if (GetItemValue(*SensedItem) > 0) // Ignore useless items
 		{
-			// Is current item closer than new?
-			if (Actor->GetDistanceTo(currentBBItem) < SensedItem->GetDistanceTo(currentBBItem))
+			// Try grabbing the currentItem on blackboard
+			if (ABaseItem* currentBBItem = Cast<ABaseItem>(BlackboardComponent->GetValueAsObject(ItemKeyName)))
 			{
-				SensedItem = currentBBItem;
-			}// Else keep sensedItem
+				// Is current item closer than new?
+				//if (Actor->GetDistanceTo(currentBBItem) < SensedItem->GetDistanceTo(currentBBItem))
+				//{
+				//	SensedItem = currentBBItem;
+				//}// Else keep sensedItem
+				
+				// Check which one is more important
+				if (GetItemValue(*currentBBItem) > GetItemValue(*SensedItem))
+				{
+					SensedItem = currentBBItem;
+				}
+			}
+		
+			// Set currentItem on blackboard
+			BlackboardComponent->SetValueAsObject(ItemKeyName, SensedItem);
+			BlackboardComponent->SetValueAsBool(ItemSeenKeyName, true);
+		
+			GEngine->AddOnScreenDebugMessage(6, 2.f, FColor::Green,TEXT("Seen Item"));
+			BlackboardComponent->SetValueAsVector(TargetLocationKeyName, SensedItem->GetActorLocation() );
 		}
-		
-		// Set currentItem on blackboard
-		BlackboardComponent->SetValueAsObject(ItemKeyName, SensedItem);
-		BlackboardComponent->SetValueAsBool(ItemSeenKeyName, true);
-		
-		GEngine->AddOnScreenDebugMessage(6, 2.f, FColor::Green,TEXT("Seen Item"));
-		BlackboardComponent->SetValueAsVector(TargetLocationKeyName, SensedItem->GetActorLocation() );
 	}
 	
 	
 	GEngine->AddOnScreenDebugMessage(5, 2.f, FColor::Green, 
 	FString::Printf(TEXT("Saw Something! %s"), *Actor->GetName()));
+}
+
+int UStudentPerceptorCaluweYanto::GetItemValue(const ABaseItem& Item)
+{
+	switch (Item.GetItemType())
+	{
+		case EItemType::Shotgun:
+		case EItemType::Pistol:
+			return 3;
+		case EItemType::Medkit:
+			return 2;
+		case  EItemType::Food:
+			return 1;
+		default: // Anything else 0
+			return 0; 
+	}
 }
