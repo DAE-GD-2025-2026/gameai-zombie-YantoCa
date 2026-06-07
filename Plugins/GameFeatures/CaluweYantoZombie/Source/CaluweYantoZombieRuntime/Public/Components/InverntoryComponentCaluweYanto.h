@@ -3,6 +3,8 @@
 #include "CoreMinimal.h"
 #include  "Components/ActorComponent.h"
 
+#include "Common/InventoryComponent.h"
+
 #include "InverntoryComponentCaluweYanto.generated.h"
 
 class ABaseItem;
@@ -20,6 +22,9 @@ public:
 	bool TryTakingItem(ABaseItem& Item);
 	const TArray<ABaseItem*>& GetInventory() const;
 	float GetPickupRange() const;
+	//UInventoryComponent* GetInventoryComponent() const {return InventoryComponent;};
+
+	bool UsingItem(const EItemType& UsingItemType);
 protected:
 	virtual void BeginPlay() override;
 	

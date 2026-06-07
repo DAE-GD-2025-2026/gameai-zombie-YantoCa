@@ -52,3 +52,31 @@ float  UInventoryComponentCaluweYanto::GetPickupRange() const
 {
 	return InventoryComponent->GetPickupRange();
 }
+bool UInventoryComponentCaluweYanto::UsingItem(const EItemType& UsingItemType)
+{
+	if (!InventoryComponent) return false;
+	//if (InventoryComponent->GetInventory().Contains(&UsingItemType)) return false; // avoid duplicates
+	
+	const TArray<ABaseItem*>&  currentInventory = GetInventory();
+	bool bItemWasUsed = false;
+	
+	for (int i = 0; i < currentInventory.Num(); i++)
+	{
+		ABaseItem* currentItem = currentInventory[i];
+		if (currentItem == nullptr || !IsValid(currentItem)) continue;
+		
+		if (currentItem->GetItemType() == UsingItemType) // Is current item the same type i am searching?
+		{
+			InventoryComponent->UseItem(i);
+			bItemWasUsed = true;
+			
+			if (currentItem->GetValue() <= 0)
+			{
+				InventoryComponent->RemoveItem(i);
+				break; // Stop with looking you found it dumb dumb
+			}
+		}
+	}
+	
+	return bItemWasUsed;	
+}
