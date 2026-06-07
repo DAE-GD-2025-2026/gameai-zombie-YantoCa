@@ -97,7 +97,10 @@ void UStudentPerceptorCaluweYanto::OnPerceptionUpdated(AActor* Actor, FAIStimulu
 		
 		// Set currentItem on blackboard
 		BlackboardComponent->SetValueAsObject(ItemKeyName, SensedItem);
-		BlackboardComponent->SetValueAsBool(ItemKeyName, SensedItem != nullptr);
+		BlackboardComponent->SetValueAsBool(ItemSeenKeyName, true);
+		
+		GEngine->AddOnScreenDebugMessage(6, 2.f, FColor::Green,TEXT("Seen Item"));
+		BlackboardComponent->SetValueAsVector(TargetLocationKeyName, SensedItem->GetActorLocation() );
 	}
 	
 	

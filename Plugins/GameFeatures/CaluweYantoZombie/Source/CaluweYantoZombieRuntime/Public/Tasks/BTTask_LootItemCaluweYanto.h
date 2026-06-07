@@ -16,5 +16,8 @@ protected:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& root, uint8* nodeMemory) override;
 	
 	UPROPERTY(EditAnywhere, Category = "Blackboard");
+	FBlackboardKeySelector ItemSeenKeySelector;
+	
+	UPROPERTY(EditAnywhere, Category = "Blackboard");
 	FBlackboardKeySelector ItemKey;
 };

@@ -43,6 +43,8 @@ EBTNodeResult::Type UBTTask_LootItemCaluweYanto::ExecuteTask(UBehaviorTreeCompon
 			
 			// TODO ADD A FUNCTION THAT MAKES ROOM FOR ITEM 
 			
+			BlackboardComponent->SetValueAsBool(ItemSeenKeySelector.SelectedKeyName, false);
+			
 			GEngine->AddOnScreenDebugMessage(5, 2.f, FColor::Green, 
 			FString::Printf(TEXT("Picked up: %s"), *Item->GetName())); 		
 			return EBTNodeResult::Succeeded;
